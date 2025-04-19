@@ -11,42 +11,10 @@ const Footer = () => {
       <div className="container mx-auto px-4 max-w-5xl">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Quick Links */}
-          <div>
-            <h3 className="font-semibold text-lg mb-4">Quick Links</h3>
-            <ul className="space-y-2">
-              <li>
-                <a href="/" className="hover:text-primary transition-colors">Home</a>
-              </li>
-              <li>
-                <a href="/browse" className="hover:text-primary transition-colors">Browse Spas</a>
-              </li>
-              <li>
-                <a href="/post-ad" className="hover:text-primary transition-colors">Post Ad</a>
-              </li>
-              <li>
-                <a href="/faq" className="hover:text-primary transition-colors">FAQ</a>
-              </li>
-            </ul>
-          </div>
+          
 
           {/* Categories */}
-          <div>
-            <h3 className="font-semibold text-lg mb-4">Spa Categories</h3>
-            <ul className="space-y-2">
-              <li>
-                <a href="/jobs" className="hover:text-primary transition-colors">Day Spas</a>
-              </li>
-              <li>
-                <a href="/real-estate" className="hover:text-primary transition-colors">Medical Spas</a>
-              </li>
-              <li>
-                <a href="/vehicles" className="hover:text-primary transition-colors">Destination Spas</a>
-              </li>
-              <li>
-                <a href="/services" className="hover:text-primary transition-colors">Resort Spas</a>
-              </li>
-            </ul>
-          </div>
+          
 
           {/* Company Info */}
           <div>
