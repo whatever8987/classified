@@ -1,7 +1,3 @@
->// src/services/api.ts
-// import { cookies } from 'next/headers';
-// import { redirect } from 'next/navigation';
-
 // src/services/api.ts
 const BASE_URL = 'http://your_api_base_url';
 const AUTH_TOKEN_KEY = 'authToken';
