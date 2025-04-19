@@ -1,6 +1,6 @@
 import type {Metadata} from 'next';
 import './globals.css';
-import {Footer} from '@/components/footer';
+import Footer from '@/components/footer';
 import {Button} from '@/components/ui/button';
 
 export const metadata: Metadata = {
@@ -32,3 +32,4 @@ export default function RootLayout({
     </html>
   );
 }
+
