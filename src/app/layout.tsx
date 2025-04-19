@@ -1,6 +1,7 @@
 import type {Metadata} from 'next';
 import './globals.css';
 import {Footer} from '@/components/footer';
+import {Button} from '@/components/ui/button';
 
 export const metadata: Metadata = {
   title: 'Zenith Spa Directory',
@@ -21,8 +22,7 @@ export default function RootLayout({
               <a href="/" className="text-xl font-bold">Zenith Spa Directory</a>
             </div>
             <div>
-              <span>Contact Us:</span>
-              <a href="mailto:info@zenithspa.com" className="ml-2">info@zenithspa.com</a>
+              <Button size="sm">Post Ads</Button>
             </div>
           </div>
         </header>
@@ -32,4 +32,3 @@ export default function RootLayout({
     </html>
   );
 }
-
