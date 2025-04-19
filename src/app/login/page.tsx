@@ -1,69 +1,110 @@
+'use client';
 
-import { redirect } from 'next/navigation';
-import { login } from '@/services/api';
+import React from 'react';
+import {useForm} from 'react-hook-form';
+import {zodResolver} from '@hookform/resolvers/zod';
+import {z} from 'zod';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import {Input} from '@/components/ui/input';
+import {Button} from '@/components/ui/button';
+import {loginAction} from '@/lib/actions';
+import {useRouter} from 'next/navigation';
+import {useToast} from '@/hooks/use-toast';
 
-export default async function LoginPage() {
-  
-    async function handleSubmit(formData: FormData) {
-        'use server';
-    
-        const username = formData.get('username') as string;
-        const password = formData.get('password') as string;
-    
-        try {
-            await login(username, password);
-            redirect('/');
-        } catch (error) {
-            console.error('Login failed:', error);
-            
-            
-        }
+const loginSchema = z.object({
+  username: z.string().min(2, {
+    message: 'Please enter a valid username',
+  }),
+  password: z.string().min(6, {
+    message: 'Password must be at least 6 characters.',
+  }),
+});
+
+export default function LoginPage() {
+  const router = useRouter();
+  const {toast} = useToast();
+
+  const form = useForm<z.infer<typeof loginSchema>>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      username: '',
+      password: '',
+    },
+  });
+
+  async function onSubmit(values: z.infer<typeof loginSchema>) {
+    try {
+      const {success, message} = await loginAction(values.username, values.password);
+      if (success) {
+        toast({
+          title: 'Login successful',
+          description: message || 'Redirecting...',
+        });
+        router.push('/');
+      } else {
+        toast({
+          variant: 'destructive',
+          title: 'Login failed',
+          description: message || 'Invalid credentials.',
+        });
+      }
+    } catch (error: any) {
+      toast({
+        variant: 'destructive',
+        title: 'Login failed',
+        description: error.message || 'An error occurred during login.',
+      });
     }
+  }
 
-    return (
-    <div className="flex items-center justify-center h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-96">
-        <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
-        <form action={handleSubmit}>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
-              Username
-            </label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="username"
-              type="text"
-              name='username'
-              placeholder="Username"
-              
-              
-              required
+  return (
+    <div className="container mx-auto py-10">
+      <div className="max-w-md mx-auto bg-white rounded-md shadow-md p-6">
+        <h1 className="text-3xl font-bold mb-6">Login</h1>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <FormField
+              control={form.control}
+              name="username"
+              render={({field}) => (
+                <FormItem>
+                  <FormLabel>Username</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter your username" type="text" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-          </div>
-          <div className="mb-6">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
-              Password
-            </label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="password"
-              name='password'
-              type="password"
-              placeholder="Password"
-              required
+            <FormField
+              control={form.control}
+              name="password"
+              render={({field}) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Enter your password"
+                      type="password"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-            <a href='/register'>Register</a>
-          </div>
-          <div className="flex items-center justify-center">
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              type="submit"
-            >
-              Sign In
-            </button>
-          </div>
-        </form>
+            <Button type="submit">Login</Button>
+          </form>
+        </Form>
       </div>
     </div>
   );
 }
+

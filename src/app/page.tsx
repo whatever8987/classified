@@ -1,23 +1,30 @@
-import { redirect } from 'next/navigation';
-import { cookies } from 'next/headers';
-import { logout } from '@/services/api';
+'use client';
+
+import {logoutAction} from '@/lib/actions';
+import {useRouter} from 'next/navigation';
+import {useToast} from '@/hooks/use-toast';
 
 export default function Home() {
-  const handleLogout = async () => {
-    
-      const token = cookies().get('authToken')?.value;
+  const router = useRouter();
+  const {toast} = useToast();
 
-      if(token){
-        try{
-          await logout(token)
-        } catch (error){
-          console.error(error)
-        }
-        redirect('/login');
-      }
-    
-    
+  const handleLogout = async () => {
+    try {
+      await logoutAction();
+      toast({
+        title: 'Logout successful',
+        description: 'Redirecting to login page...',
+      });
+      router.push('/login');
+    } catch (error: any) {
+      toast({
+        variant: 'destructive',
+        title: 'Logout failed',
+        description: error.message || 'An error occurred during logout.',
+      });
+    }
   };
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
@@ -29,7 +36,6 @@ export default function Home() {
           Logout
         </button>
       </div>
-      
     </main>
   );
 }
