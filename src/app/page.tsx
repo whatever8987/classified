@@ -6,10 +6,17 @@ import {useToast} from '@/hooks/use-toast';
 import {LocationDirectory} from '@/components/location-directory';
 import AIMarketingTool from '@/components/ai-marketing-tool';
 import {Input} from '@/components/ui/input';
+import {useEffect, useState} from 'react';
 
 export default function Home() {
   const router = useRouter();
   const {toast} = useToast();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem('authToken'); // Check if token exists in localStorage
+    setIsAuthenticated(!!token);
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -32,12 +39,14 @@ export default function Home() {
     <main className="container mx-auto py-10">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Welcome to Zenith Spa Directory!</h1>
-        <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          onClick={handleLogout}
-        >
-          Logout
-        </button>
+        {isAuthenticated && (
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            onClick={handleLogout}
+          >
+            Logout
+          </button>
+        )}
       </div>
 
       {/* Search Bar */}
@@ -70,4 +79,3 @@ export default function Home() {
     </main>
   );
 }
-
