@@ -1,4 +1,3 @@
-
 // src/components/location-directory.tsx
 import React from 'react';
 
@@ -18,7 +17,7 @@ export const LocationDirectory = () => {
           <ul>
             {cities.map((city) => (
               <li key={city} className="mb-1">
-                <a href={`/locations/${state.toLowerCase()}/${city.toLowerCase().replace(' ', '-')}`} className="hover:text-accent">{city}</a>
+                <a href={`/locations/${state.toLowerCase()}/${city.toLowerCase().replace(' ', '-')}`} className="hover:text-primary">{city}</a>
               </li>
             ))}
           </ul>

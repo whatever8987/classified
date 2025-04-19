@@ -3,6 +3,9 @@
 import {logoutAction} from '@/lib/actions';
 import {useRouter} from 'next/navigation';
 import {useToast} from '@/hooks/use-toast';
+import {LocationDirectory} from '@/components/location-directory';
+import AIMarketingTool from '@/components/ai-marketing-tool';
+import {Input} from '@/components/ui/input';
 
 export default function Home() {
   const router = useRouter();
@@ -26,9 +29,9 @@ export default function Home() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <h1 className="text-3xl font-bold mb-6">Welcome to the main page!</h1>
+    <main className="container mx-auto py-10">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold">Welcome to Zenith Spa Directory!</h1>
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           onClick={handleLogout}
@@ -36,6 +39,35 @@ export default function Home() {
           Logout
         </button>
       </div>
+
+      {/* Search Bar */}
+      <div className="mb-6">
+        <Input type="text" placeholder="Search for spas..." className="w-full" />
+      </div>
+
+      {/* Categories */}
+      <div className="mb-8">
+        <h2 className="text-2xl font-semibold mb-4">Categories</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="bg-secondary text-secondary-foreground rounded-lg p-4">Jobs</div>
+          <div className="bg-secondary text-secondary-foreground rounded-lg p-4">Real Estate</div>
+          <div className="bg-secondary text-secondary-foreground rounded-lg p-4">Vehicles</div>
+          <div className="bg-secondary text-secondary-foreground rounded-lg p-4">Services</div>
+          {/* Add more categories as needed */}
+        </div>
+      </div>
+
+      {/* AI Marketing Tool */}
+      <div className="mb-8">
+        <AIMarketingTool />
+      </div>
+
+      {/* Location Directory */}
+      <div>
+        <h2 className="text-2xl font-semibold mb-4">Spa Locations</h2>
+        <LocationDirectory />
+      </div>
     </main>
   );
 }
+
